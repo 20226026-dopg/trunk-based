@@ -1,0 +1,15 @@
+{
+  "name": "trunk-based-dev-guide",
+  "version": "1.0.0",
+  "description": "Hướng dẫn Trunk-based Development, Feature Flags & GrowthBook",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "demo:flags": "node src/demo-feature-flags.js",
+    "demo:growthbook": "node src/demo-growthbook.js",
+    "demo:trunk": "node src/demo-trunk-workflow.js"
+  },
+  "dependencies": {
+    "@growthbook/growthbook": "^1.3.1"
+  }
+}
