@@ -7,7 +7,8 @@
     "start": "node src/index.js",
     "demo:flags": "node src/demo-feature-flags.js",
     "demo:growthbook": "node src/demo-growthbook.js",
-    "demo:trunk": "node src/demo-trunk-workflow.js"
+    "demo:trunk": "node src/demo-trunk-workflow.js",
+    "demo:real": "node src/demo-real-workflow.js"
   },
   "dependencies": {
     "@growthbook/growthbook": "^1.3.1"
