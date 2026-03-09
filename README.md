@@ -1,5 +1,7 @@
 # Trunk-based Development, Feature Flags & GrowthBook
 
+> **Repository:** https://github.com/20226026-dopg/trunk-based.git
+
 ## 📚 Giới thiệu
 
 Dự án này là **hướng dẫn thực hành** về 3 khái niệm quan trọng trong phát triển phần mềm hiện đại:
@@ -25,6 +27,7 @@ npm start
 npm run demo:trunk       # Trunk-based workflow
 npm run demo:flags       # Feature Flags cơ bản
 npm run demo:growthbook  # GrowthBook SDK
+npm run demo:real        # Demo thực tế với Git workflow
 ```
 
 ---
@@ -316,13 +319,73 @@ docker run -d -p 3100:3100 -p 3200:3200 growthbook/growthbook
 trunk-based/
 ├── package.json
 ├── README.md
-├── src/
-│   ├── index.js                  # Entry point - chạy tất cả demos
-│   ├── feature-flag-service.js   # Feature Flag service (tự triển khai)
-│   ├── demo-trunk-workflow.js    # Demo quy trình Trunk-based
-│   ├── demo-feature-flags.js     # Demo Feature Flags
-│   └── demo-growthbook.js        # Demo GrowthBook SDK
-└── .gitignore
+├── .gitignore
+└── src/
+    ├── index.js                  # Entry point - chạy tất cả demos
+    ├── feature-flag-service.js   # Feature Flag service (tự triển khai)
+    ├── notification-service.js   # Notification (demo trunk-based workflow)
+    ├── analytics-service.js      # Analytics (demo song song 2 features)
+    ├── demo-trunk-workflow.js    # Demo quy trình Trunk-based
+    ├── demo-feature-flags.js     # Demo Feature Flags
+    ├── demo-growthbook.js        # Demo GrowthBook SDK
+    └── demo-real-workflow.js     # Demo thực tế: gradual rollout
+```
+
+---
+
+## 🔬 Phần 4: Thực hành trên GitHub
+
+Dự án này đã được push lên GitHub và áp dụng trunk-based workflow thật:
+
+### Git History thực tế
+
+```
+*   Merge feat/user-analytics into main - PR #2
+|\                                              
+| * feat: add analytics service behind feature flag
+|/                                                 
+*   Merge feat/user-notification into main - PR #1  
+|\                                                  
+| * feat: add notification service behind feature flag
+|/                                                    
+* Initial commit - Trunk-based Dev guide              
+```
+
+### Quy trình đã thực hiện
+
+| Bước | Hành động | Branch |
+|------|-----------|--------|
+| 1 | Khởi tạo project, push lên `main` | `main` |
+| 2 | Tạo branch `feat/user-notification` | short-lived |
+| 3 | Code NotificationService + feature flag | `feat/user-notification` |
+| 4 | Push → PR → Merge vào `main` → Xóa branch | `main` |
+| 5 | Song song: tạo `feat/user-analytics` | short-lived |
+| 6 | Code AnalyticsService + feature flag | `feat/user-analytics` |
+| 7 | Push → PR → Merge vào `main` → Xóa branch | `main` |
+
+### Thử tự thực hành
+
+```bash
+# Clone repo
+git clone https://github.com/20226026-dopg/trunk-based.git
+cd trunk-based
+npm install
+
+# Xem git history
+git log --oneline --graph --all
+
+# Chạy demos
+npm start
+npm run demo:real
+
+# Tự tạo feature mới theo trunk-based workflow:
+git checkout -b feat/your-new-feature
+# ... viết code, bọc trong feature flag ...
+git add . && git commit -m "feat: your new feature behind flag"
+git push -u origin feat/your-new-feature
+# → Tạo Pull Request trên GitHub
+# → Review → Merge → Xóa branch
+# → Bật feature flag khi sẵn sàng
 ```
 
 ---
